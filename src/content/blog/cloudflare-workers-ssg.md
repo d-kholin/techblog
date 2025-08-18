@@ -27,7 +27,7 @@ _worker.js
 _routes.json
 ```
 Then, create a file in the root of the project called `wrangler.jsonc`
-```
+```json
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "my-astro-app",
