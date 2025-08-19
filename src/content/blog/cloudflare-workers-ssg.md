@@ -11,13 +11,17 @@ For those who don't yet know, Cloudflare Workers can be used as the CI/CD tool f
 
 To setup this blog (Yes, the one you're reading now!), I started out with the basic Astro template. Basically, created a new git repository and then ran the following to initialize a new blog: 
 
-`npm create astro@latest`
+```bash
+npm create astro@latest
+```
 
 After choosing to use the blog template, you get a nice little site template created. 
 
 Too add it to Cloudflare Workers, you need to run a couple commands in the root of the folder. (Shamelessly stolen from [Astro's website](https://docs.astro.build/en/guides/deploy/cloudflare/))
 
-`npm install wrangler@latest --save-dev`
+```bash 
+npm install wrangler@latest --save-dev
+````
 This installs the wrangler cli.
 
 Then needed to create an ignore file in `public/.assetsignore`
