@@ -12,7 +12,7 @@ import expressiveCode from 'astro-expressive-code';
 export default defineConfig({
   site: 'https://example.com',
   integrations: [expressiveCode({
-    themes: ['material-theme-lighter']}
+    themes: ['github-light']}
   ), mdx(), sitemap() ],
   adapter: cloudflare(),
   markdown: {
