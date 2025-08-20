@@ -5,6 +5,9 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
+import "remark-github-blockquote-alert/alert.css";
+
+
 
 type Props = CollectionEntry<'blog'>['data'];
 
@@ -81,6 +84,24 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 				</div>
 			</article>
 		</main>
+		<div class="prose">
+			<script src="https://giscus.app/client.js"
+        data-repo="d-kholin/techblog"
+        data-repo-id="R_kgDOPgF23g"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOPgF23s4CuXhO"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+		</div>
 		<Footer />
 	</body>
 </html>
