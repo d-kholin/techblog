@@ -7,10 +7,13 @@ import { defineConfig } from 'astro/config';
 import cloudflare from '@astrojs/cloudflare';
 
 import { remarkAlert } from "remark-github-blockquote-alert";
+import expressiveCode from 'astro-expressive-code';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://example.com',
-  integrations: [mdx(), sitemap()],
+  integrations: [expressiveCode({
+    themes: ['material-theme-lighter']}
+  ), mdx(), sitemap() ],
   adapter: cloudflare(),
   markdown: {
     remarkPlugins: [remarkAlert],
