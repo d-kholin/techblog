@@ -3,6 +3,7 @@ title: 'Static Site on Cloudflare Workers with Astro'
 description: 'The infra talk'
 pubDate: 'August 18 2025'
 heroImage: '../../assets/cloudflare-workers.png'
+tags: ['astro', 'cloudflare', 'workers']
 ---
 
 I suppose the best place to start this blog is how it's running, as that's a project in itself. (Albeit, an easy one)
