@@ -7,7 +7,7 @@ export async function GET() {
       title: post.data.title,
       description: post.data.description,
       url: `/blog/${post.id}/`,
-      body: post.body,
+      body: post.body.replace(/<[^>]+>/g, ''),
     }))
   );
   return new Response(body, {
