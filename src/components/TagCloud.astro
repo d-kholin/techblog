@@ -1,0 +1,36 @@
+---
+import { getCollection } from 'astro:content';
+
+const { tags = [] } = Astro.props;
+const posts = await getCollection('blog');
+const tagCounts = new Map<string, number>();
+for (const post of posts) {
+  for (const tag of post.data.tags || []) {
+    tagCounts.set(tag, (tagCounts.get(tag) ?? 0) + 1);
+  }
+}
+const maxCount = Math.max(...tagCounts.values(), 1);
+function fontSize(tag: string) {
+  const count = tagCounts.get(tag) ?? 1;
+  const min = 0.8;
+  const max = 2;
+  return min + (max - min) * (count / maxCount);
+}
+---
+<div class="tag-cloud">
+  {tags.map((tag) => (
+    <a href={`/tags/${tag}/`} style={`font-size: ${fontSize(tag)}em`}>{tag}</a>
+  ))}
+</div>
+<style>
+.tag-cloud {
+  display: flex;
+  gap: 0.5em;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+.tag-cloud a {
+  text-decoration: none;
+  color: rgb(var(--accent));
+}
+</style>

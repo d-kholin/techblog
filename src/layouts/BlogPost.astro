@@ -5,13 +5,14 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
+import TagCloud from '../components/TagCloud.astro';
 import "remark-github-blockquote-alert/alert.css";
 
 
 
 type Props = CollectionEntry<'blog'>['data'];
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, tags = [] } = Astro.props;
 ---
 
 <html lang="en">
@@ -80,8 +81,9 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 						<h1>{title}</h1>
 						<hr />
 					</div>
-					<slot />
-				</div>
+                                        <slot />
+                                        <TagCloud tags={tags} />
+                                </div>
 			</article>
 		</main>
 		<div class="prose">
