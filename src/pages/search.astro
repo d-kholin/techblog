@@ -1,0 +1,75 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={`Search | ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
+    <style>
+      main {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+      }
+      input[type="search"] {
+        width: 100%;
+        padding: 0.5rem;
+        font-size: 1rem;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+      li {
+        margin: 0.5rem 0;
+      }
+      li a {
+        text-decoration: none;
+        color: rgb(var(--black));
+      }
+      li a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <Header />
+    <main>
+      <label for="search-input" class="sr-only">Search</label>
+      <input id="search-input" type="search" placeholder="Search posts" />
+      <ul id="results"></ul>
+    </main>
+    <Footer />
+    <script>
+      async function init() {
+        const response = await fetch('/search.json');
+        const posts = await response.json();
+        const input = document.getElementById('search-input');
+        const results = document.getElementById('results');
+        function update() {
+          const query = input.value.toLowerCase();
+          results.innerHTML = '';
+          if (!query) return;
+          posts
+            .filter((p) =>
+              p.title.toLowerCase().includes(query) ||
+              p.body.toLowerCase().includes(query)
+            )
+            .forEach((p) => {
+              const li = document.createElement('li');
+              const a = document.createElement('a');
+              a.href = p.url;
+              a.textContent = p.title;
+              li.appendChild(a);
+              results.appendChild(li);
+            });
+        }
+        input.addEventListener('input', update);
+      }
+      init();
+    </script>
+  </body>
+</html>
