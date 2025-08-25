@@ -33,18 +33,31 @@ const { title, description, pubDate, updatedDate, heroImage, tags = [] } = Astro
 				border-radius: 12px;
 				box-shadow: var(--box-shadow);
 			}
-			.prose {
-				width: 720px;
-				max-width: calc(100% - 2em);
-				margin: auto;
-				padding: 1em;
-				color: rgb(var(--gray-dark));
-			}
-			.title {
-				margin-bottom: 1em;
-				padding: 1em 0;
-				text-align: center;
-				line-height: 1;
+                        .post-container {
+                                display: flex;
+                                flex-direction: column;
+                                align-items: center;
+                        }
+                        .prose {
+                                width: 720px;
+                                max-width: calc(100% - 2em);
+                                margin: 0;
+                                padding: 1em;
+                                color: rgb(var(--gray-dark));
+                        }
+                        .tags-sidebar {
+                                margin-top: 2rem;
+                                font-size: 0.85rem;
+                        }
+                        .tags-sidebar h2 {
+                                margin: 0 0 0.5rem 0;
+                                font-size: 1rem;
+                        }
+                        .title {
+                                margin-bottom: 1em;
+                                padding: 1em 0;
+                                text-align: center;
+                                line-height: 1;
 			}
 			.title h1 {
 				margin: 0 0 0.5em 0;
@@ -55,36 +68,55 @@ const { title, description, pubDate, updatedDate, heroImage, tags = [] } = Astro
 			}
 			.last-updated-on {
 				font-style: italic;
-			}
-		</style>
-	</head>
+                        }
+                        @media (min-width: 1024px) {
+                                .post-container {
+                                        flex-direction: row;
+                                        justify-content: center;
+                                        align-items: flex-start;
+                                }
+                                .prose {
+                                        margin: 0;
+                                }
+                                .tags-sidebar {
+                                        margin-top: 0;
+                                        margin-left: 2rem;
+                                }
+                        }
+                </style>
+        </head>
 
 	<body>
 		<Header />
 		<main>
 			<article>
-				<div class="hero-image">
-					{heroImage && <Image width={1020} height={510} src={heroImage} alt="" />}
-				</div>
-				<div class="prose">
-					<div class="title">
-						<div class="date">
-							<FormattedDate date={pubDate} />
-							{
-								updatedDate && (
-									<div class="last-updated-on">
-										Last updated on <FormattedDate date={updatedDate} />
-									</div>
-								)
-							}
-						</div>
-						<h1>{title}</h1>
-						<hr />
-					</div>
-                                        <slot />
-                                        <TagCloud tags={tags} />
+                                <div class="hero-image">
+                                        {heroImage && <Image width={1020} height={510} src={heroImage} alt="" />}
                                 </div>
-			</article>
+                                <div class="post-container">
+                                        <div class="prose">
+                                                <div class="title">
+                                                        <div class="date">
+                                                                <FormattedDate date={pubDate} />
+                                                                {
+                                                                        updatedDate && (
+                                                                                <div class="last-updated-on">
+                                                                                        Last updated on <FormattedDate date={updatedDate} />
+                                                                                </div>
+                                                                        )
+                                                                }
+                                                        </div>
+                                                        <h1>{title}</h1>
+                                                        <hr />
+                                                </div>
+                                                <slot />
+                                        </div>
+                                        <aside class="tags-sidebar">
+                                                <h2>Tags</h2>
+                                                <TagCloud tags={tags} />
+                                        </aside>
+                                </div>
+                        </article>
 		</main>
 		<div class="prose">
 			<script src="https://giscus.app/client.js"
