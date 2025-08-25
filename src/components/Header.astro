@@ -45,7 +45,16 @@ import HeaderLink from './HeaderLink.astro';
 <button id="close-search" aria-label="Close Search">×</button>
 <label for="search-input" class="sr-only">Search</label>
 <input id="search-input" type="search" placeholder="Search posts" />
-<ul id="search-results"></ul>
+<div id="results">
+<section id="posts-section" hidden>
+<h3>Posts</h3>
+<ul id="post-results"></ul>
+</section>
+<section id="content-section" hidden>
+<h3>Content</h3>
+<ul id="content-results"></ul>
+</section>
+</div>
 </div>
 </div>
 <script>
@@ -54,13 +63,16 @@ const overlay = document.getElementById('search-overlay');
 const openBtn = document.getElementById('open-search');
 const closeBtn = document.getElementById('close-search');
 const input = document.getElementById('search-input');
-const results = document.getElementById('search-results');
-let posts = [];
+const postResults = document.getElementById('post-results');
+const contentResults = document.getElementById('content-results');
+const postsSection = document.getElementById('posts-section');
+const contentSection = document.getElementById('content-section');
+let entries = [];
 
 async function loadIndex() {
-if (posts.length) return;
+if (entries.length) return;
 const res = await fetch('/search.json');
-posts = await res.json();
+entries = await res.json();
 }
 
 function escapeRegExp(str) {
@@ -90,7 +102,10 @@ loadIndex();
 function close() {
 overlay.setAttribute('hidden', '');
 input.value = '';
-results.innerHTML = '';
+postResults.innerHTML = '';
+contentResults.innerHTML = '';
+postsSection.hidden = true;
+contentSection.hidden = true;
 }
 
 openBtn.addEventListener('click', open);
@@ -104,11 +119,14 @@ if (e.key === 'Escape') close();
 
 input.addEventListener('input', () => {
 const query = input.value.trim();
-results.innerHTML = '';
+postResults.innerHTML = '';
+contentResults.innerHTML = '';
+postsSection.hidden = true;
+contentSection.hidden = true;
 if (!query) return;
 const esc = escapeRegExp(query);
 const regex = new RegExp(esc, 'i');
-posts.forEach((p) => {
+entries.forEach((p) => {
 if (regex.test(p.title) || regex.test(p.description) || regex.test(p.body)) {
 const li = document.createElement('li');
 const a = document.createElement('a');
@@ -123,7 +141,13 @@ preview.innerHTML = snippet;
 a.appendChild(preview);
 }
 li.appendChild(a);
-results.appendChild(li);
+if (p.type === 'post') {
+postResults.appendChild(li);
+postsSection.hidden = false;
+} else {
+contentResults.appendChild(li);
+contentSection.hidden = false;
+}
 }
 });
 });
@@ -209,24 +233,31 @@ results.appendChild(li);
                 width: 100%;
                 padding: 0.5rem;
                 font-size: 1rem;
+                border-radius: 4px;
+                background: rgb(var(--black));
+                color: white;
+                border: none;
         }
-        #search-results {
-                list-style: none;
-                padding: 0;
+        #results {
                 margin: 1em 0 0;
         }
-        #search-results li {
+        #results ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+        }
+        #results li {
                 margin: 0.5em 0;
         }
-        #search-results a {
+        #results a {
                 text-decoration: none;
                 color: rgb(var(--black));
                 display: block;
         }
-        #search-results a:hover {
-                text-decoration: underline;
+        #results a:hover {
+                text-decoration: none;
         }
-        #search-results p {
+        #results p {
                 margin: 0.25em 0 0;
         }
         @media (max-width: 720px) {
