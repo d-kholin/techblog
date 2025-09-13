@@ -27,3 +27,5 @@ Not all was sunshine and roses. I had it a couple times where the ai would go ba
 
 ## Conclusion
 Honestly, I was a bit suprised at how quickly I was able to get something up and running, and it's something that I wouldn't know how to code personally. That said, I did still need to use a decent amount of technical knowledge to guide the AI sometimes to the correct solution.
+
+If you want to check it out.... take a look at [Tooltracker!](https://github.com/d-kholin/tooltracker)
