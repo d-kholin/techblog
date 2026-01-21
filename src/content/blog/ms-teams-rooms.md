@@ -3,6 +3,7 @@ title: 'Teams Rooms Setup in Microsoft 365'
 description: 'Got collab?'
 pubDate: 'August 19 2025'
 heroImage: '../../assets/ms-teams.png'
+tags: ['microsoft', 'teams', 'rooms']
 ---
 
 
