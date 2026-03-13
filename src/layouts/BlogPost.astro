@@ -7,8 +7,6 @@ import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
 import "remark-github-blockquote-alert/alert.css";
 
-
-
 type Props = CollectionEntry<'blog'>['data'];
 
 const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
@@ -17,91 +15,186 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 <html lang="en">
 	<head>
 		<BaseHead title={title} description={description} />
-		<style>
-			main {
-				width: calc(100% - 2em);
-				max-width: 100%;
-				margin: 0;
-			}
-			.hero-image {
-				width: 100%;
-			}
-			.hero-image img {
-				display: block;
-				margin: 0 auto;
-				border-radius: 12px;
-				box-shadow: var(--box-shadow);
-			}
-			.prose {
-				width: 720px;
-				max-width: calc(100% - 2em);
-				margin: auto;
-				padding: 1em;
-				color: rgb(var(--gray-dark));
-			}
-			.title {
-				margin-bottom: 1em;
-				padding: 1em 0;
-				text-align: center;
-				line-height: 1;
-			}
-			.title h1 {
-				margin: 0 0 0.5em 0;
-			}
-			.date {
-				margin-bottom: 0.5em;
-				color: rgb(var(--gray));
-			}
-			.last-updated-on {
-				font-style: italic;
-			}
-		</style>
 	</head>
 
 	<body>
 		<Header />
+
 		<main>
 			<article>
-				<div class="hero-image">
-					{heroImage && <Image width={1020} height={510} src={heroImage} alt="" />}
-				</div>
-				<div class="prose">
-					<div class="title">
-						<div class="date">
-							<FormattedDate date={pubDate} />
-							{
-								updatedDate && (
-									<div class="last-updated-on">
-										Last updated on <FormattedDate date={updatedDate} />
-									</div>
-								)
-							}
-						</div>
-						<h1>{title}</h1>
-						<hr />
+				{heroImage && (
+					<div class="hero-image">
+						<Image width={1020} height={480} src={heroImage} alt="" />
 					</div>
+				)}
+
+				<div class="article-header">
+					<div class="article-meta">
+						<FormattedDate date={pubDate} />
+						{updatedDate && (
+							<span class="updated-on">
+								&middot; Updated <FormattedDate date={updatedDate} />
+							</span>
+						)}
+					</div>
+					<h1 class="article-title">{title}</h1>
+					{description && <p class="article-description">{description}</p>}
+					<div class="title-rule"></div>
+				</div>
+
+				<div class="prose">
 					<slot />
 				</div>
 			</article>
 		</main>
-		<div class="prose">
+
+		<div class="comments-wrapper">
 			<script src="https://giscus.app/client.js"
-        data-repo="d-kholin/techblog"
-        data-repo-id="R_kgDOPgF23g"
-        data-category="Announcements"
-        data-category-id="DIC_kwDOPgF23s4CuXhO"
-        data-mapping="pathname"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="top"
-        data-theme="light"
-        data-lang="en"
-        data-loading="lazy"
-        crossorigin="anonymous"
-        async>
-</script>
+				data-repo="d-kholin/techblog"
+				data-repo-id="R_kgDOPgF23g"
+				data-category="Announcements"
+				data-category-id="DIC_kwDOPgF23s4CuXhO"
+				data-mapping="pathname"
+				data-strict="0"
+				data-reactions-enabled="1"
+				data-emit-metadata="0"
+				data-input-position="top"
+				data-theme="light"
+				data-lang="en"
+				data-loading="lazy"
+				crossorigin="anonymous"
+				async>
+			</script>
 		</div>
+
 		<Footer />
 	</body>
 </html>
+
+<style>
+	main {
+		max-width: 760px;
+		margin: 0 auto;
+		padding: 0 1.5em 3em;
+	}
+
+	/* Hero image */
+	.hero-image {
+		width: calc(100% + 3em);
+		margin-left: -1.5em;
+		margin-bottom: 0;
+	}
+	.hero-image img {
+		display: block;
+		width: 100%;
+		height: 420px;
+		object-fit: cover;
+		border-radius: 0;
+		box-shadow: none;
+	}
+
+	/* Article header */
+	.article-header {
+		padding: 2.5em 0 0;
+		margin-bottom: 2em;
+	}
+	.article-meta {
+		font-family: 'IBM Plex Mono', monospace;
+		font-size: 0.72rem;
+		color: var(--text-muted);
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		margin-bottom: 0.75em;
+	}
+	.updated-on {
+		color: var(--text-muted);
+	}
+	.article-title {
+		font-family: 'DM Serif Display', Georgia, serif;
+		font-size: clamp(1.8rem, 4vw, 2.75rem);
+		font-weight: 400;
+		line-height: 1.15;
+		color: var(--text-primary);
+		margin: 0 0 0.5em;
+		letter-spacing: -0.01em;
+	}
+	.article-description {
+		font-family: 'IBM Plex Sans', system-ui, sans-serif;
+		font-size: 1.05rem;
+		color: var(--text-secondary);
+		line-height: 1.65;
+		margin: 0 0 1.5em;
+	}
+	.title-rule {
+		height: 2px;
+		background: linear-gradient(to right, var(--azure) 0%, var(--azure) 40px, var(--border) 40px);
+		border-radius: 2px;
+	}
+
+	/* Prose content */
+	.prose {
+		color: var(--text-primary);
+		line-height: 1.8;
+	}
+	.prose :global(h2),
+	.prose :global(h3),
+	.prose :global(h4) {
+		margin-top: 2em;
+		margin-bottom: 0.5em;
+	}
+	.prose :global(a) {
+		color: var(--azure);
+		text-decoration: underline;
+		text-decoration-thickness: 1px;
+		text-underline-offset: 3px;
+	}
+	.prose :global(a:hover) {
+		color: var(--azure-dark);
+	}
+	.prose :global(img) {
+		border-radius: 8px;
+		border: 1px solid var(--border);
+		box-shadow: var(--shadow-sm);
+	}
+	.prose :global(table) {
+		font-size: 0.9em;
+		border-collapse: collapse;
+		width: 100%;
+	}
+	.prose :global(th),
+	.prose :global(td) {
+		border: 1px solid var(--border);
+		padding: 0.6em 1em;
+		text-align: left;
+	}
+	.prose :global(th) {
+		background: var(--surface);
+		font-weight: 600;
+		font-size: 0.85em;
+	}
+
+	/* Comments */
+	.comments-wrapper {
+		max-width: 760px;
+		margin: 0 auto 3em;
+		padding: 0 1.5em;
+		border-top: 1px solid var(--border);
+		padding-top: 2.5em;
+	}
+
+	@media (max-width: 720px) {
+		main {
+			padding: 0 1em 2em;
+		}
+		.hero-image {
+			width: calc(100% + 2em);
+			margin-left: -1em;
+		}
+		.hero-image img {
+			height: 240px;
+		}
+		.comments-wrapper {
+			padding: 2em 1em 0;
+		}
+	}
+</style>
