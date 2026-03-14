@@ -73,9 +73,11 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 
 <style>
 	main {
+		width: 100%;
 		max-width: 760px;
 		margin: 0 auto;
 		padding: 0 1.5em 3em;
+		box-sizing: border-box;
 	}
 
 	/* Hero image */
@@ -152,6 +154,9 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 		color: var(--azure-dark);
 	}
 	.prose :global(img) {
+		display: block;
+		max-width: 100%;
+		height: auto;
 		border-radius: 8px;
 		border: 1px solid var(--border);
 		box-shadow: var(--shadow-sm);
